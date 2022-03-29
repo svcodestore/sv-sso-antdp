@@ -1,13 +1,7 @@
 import { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { getAllUser } from '@/services/ant-design-pro/api';
-import { Badge, Tag } from 'antd';
-
-const langMap = {
-  zh_CN: '中文',
-  zh_TW: '繁体中文',
-  en_US: '英文',
-};
+import { Badge } from 'antd';
 
 const columns: ProColumns<API.User>[] = [
   {
@@ -34,33 +28,14 @@ const columns: ProColumns<API.User>[] = [
     dataIndex: 'password',
   },
   {
-    title: '别名',
-    dataIndex: 'alias',
-  },
-  {
-    title: '语言',
-    dataIndex: 'lang',
-    render: (_, item) => {
-      return <Tag color={'blue'}>{langMap[item.lang]}</Tag>;
-    },
-  },
-  {
     title: '创建时间',
     dataIndex: 'createdAt',
     valueType: 'date',
   },
   {
-    title: '创建人',
-    dataIndex: 'createdBy',
-  },
-  {
     title: '修改时间',
     dataIndex: 'createdAt',
     valueType: 'date',
-  },
-  {
-    title: '修改人',
-    dataIndex: 'createdBy',
   },
 ];
 
