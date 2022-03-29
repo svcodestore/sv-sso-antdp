@@ -17,10 +17,6 @@ export async function login(body: API.LoginParams) {
   return request.post<API.LoginResult>('/login', { data: body });
 }
 
-export async function registUser(user: any) {
-  return request.post('/user', { data: user });
-}
-
-export async function getAllUser() {
-  return request.get<API.User>('/users');
+export async function registUser(user: API.User) {
+  return request.post('/register', { data: user });
 }

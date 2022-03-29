@@ -1,7 +1,8 @@
-import { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAllUser } from '@/services/ant-design-pro/api';
+
 import { Badge } from 'antd';
+import { getAllUser } from '@/services/api/user/user';
 
 const columns: ProColumns<API.User>[] = [
   {

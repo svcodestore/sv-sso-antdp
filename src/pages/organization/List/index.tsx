@@ -1,16 +1,21 @@
 import React from 'react';
 import { Button } from 'antd';
-import { registUser } from '@/services/ant-design-pro/api';
+import { updateUser } from '@/services/api/api';
 import { aesEncrypt } from '@/utils/crypto';
 
 const doRegist = async () => {
-  await registUser({
-    loginId: aesEncrypt('test'),
-    password: aesEncrypt('111'),
-    name: 'test person',
-    lang: 'zh_CN',
-  }).then((res) => {
-    console.log(res, 'regist');
+  await updateUser(
+    {
+      id: '1',
+      loginId: aesEncrypt('test'),
+      password: aesEncrypt('111'),
+      name: 'test person',
+      lang: 'zh_CN',
+      status: false,
+    },
+    '0',
+  ).then((res) => {
+    console.log(res, 'updateUser');
   });
 };
 
@@ -18,7 +23,7 @@ const Dashboard: React.FC = () => {
   return (
     <div>
       <Button type="primary" onClick={doRegist}>
-        Register
+        updateUser
       </Button>
     </div>
   );

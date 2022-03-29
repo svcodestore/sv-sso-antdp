@@ -1,81 +1,81 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Alert, message } from 'antd'
-import React, { useState } from 'react'
-import { ProFormText, LoginForm } from '@ant-design/pro-form'
-import { useIntl, history, FormattedMessage, useModel } from 'umi'
-import { debounce } from 'lodash'
-import { login } from '@/services/ant-design-pro/api'
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Alert, message } from 'antd';
+import React, { useState } from 'react';
+import { ProFormText, LoginForm } from '@ant-design/pro-form';
+import { useIntl, history, FormattedMessage, useModel } from 'umi';
+import { debounce } from 'lodash';
+import { login } from '@/services/api/api';
 
-import styles from './index.less'
-import { aesEncrypt } from '@/utils/crypto'
+import styles from './index.less';
+import { aesEncrypt } from '@/utils/crypto';
 
 const LoginMessage: React.FC<{
-  content: string
+  content: string;
 }> = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
     }}
     message={content}
-    type='error'
+    type="error"
     showIcon
   />
-)
+);
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({})
-  const [type] = useState<string>('login')
-  const { initialState, setInitialState } = useModel('@@initialState')
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [type] = useState<string>('login');
+  const { initialState, setInitialState } = useModel('@@initialState');
 
-  const intl = useIntl()
+  const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.()
+    const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
-      await setInitialState(s => ({
+      await setInitialState((s) => ({
         ...s,
         currentUser: userInfo,
-      }))
+      }));
     }
-  }
+  };
 
   const handleSubmit = debounce(async (values: API.LoginParams) => {
     try {
       // 登录
-      const data = { ...values, type }
+      const data = { ...values, type };
       if (values.username) {
-        data.username = aesEncrypt(values.username)
+        data.username = aesEncrypt(values.username);
       }
       if (values.password) {
-        data.password = aesEncrypt(values.password)
+        data.password = aesEncrypt(values.password);
       }
-      const msg = await login(data)
+      const msg = await login(data);
       if (msg.code === 0) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
-        })
-        message.success(defaultLoginSuccessMessage)
-        await fetchUserInfo()
+        });
+        message.success(defaultLoginSuccessMessage);
+        await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return
-        const { query } = history.location
-        const { redirect } = query as { redirect: string }
-        history.push(redirect || '/')
-        return
+        if (!history) return;
+        const { query } = history.location;
+        const { redirect } = query as { redirect: string };
+        history.push(redirect || '/');
+        return;
       }
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg)
-      console.log(userLoginState)
+      setUserLoginState(msg);
+      console.log(userLoginState);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
-      })
-      message.error(defaultLoginFailureMessage)
+      });
+      message.error(defaultLoginFailureMessage);
     }
-  }, 300)
-  const { code, type: loginType } = userLoginState
+  }, 300);
+  const { code } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -86,8 +86,8 @@ const Login: React.FC = () => {
           initialValues={{
             autoLogin: true,
           }}
-          onFinish={async values => {
-            await handleSubmit(values as API.LoginParams)
+          onFinish={async (values) => {
+            await handleSubmit(values as API.LoginParams);
           }}
         >
           {code !== void 0 && code !== 0 && (
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
           {type === 'login' && (
             <>
               <ProFormText
-                name='username'
+                name="username"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -115,15 +115,15 @@ const Login: React.FC = () => {
                     required: true,
                     message: (
                       <FormattedMessage
-                        id='pages.login.username.required'
-                        defaultMessage='用户名是必填项！'
+                        id="pages.login.username.required"
+                        defaultMessage="用户名是必填项！"
                       />
                     ),
                   },
                 ]}
               />
               <ProFormText.Password
-                name='password'
+                name="password"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
@@ -137,8 +137,8 @@ const Login: React.FC = () => {
                     required: true,
                     message: (
                       <FormattedMessage
-                        id='pages.login.password.required'
-                        defaultMessage='密码是必填项！'
+                        id="pages.login.password.required"
+                        defaultMessage="密码是必填项！"
                       />
                     ),
                   },
@@ -149,7 +149,7 @@ const Login: React.FC = () => {
         </LoginForm>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

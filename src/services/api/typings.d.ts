@@ -10,6 +10,7 @@ declare namespace API {
     name: string;
     phone: string;
     email: string;
+    lang: string;
     status: boolean;
     createdAt: string;
     updatedAt: string;
