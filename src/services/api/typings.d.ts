@@ -25,6 +25,21 @@ declare namespace API {
     updatedAt: string;
   };
 
+  type Application = {
+    id: string;
+    code: string;
+    name: string;
+    internalUrl: string;
+    homepageUrl: string;
+    status: boolean;
+    clientId: string;
+    clientSecret: string;
+    redirectUris: string;
+    tokenFormat: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+
   type CurrentUser = {
     name?: string;
     avatar?: string;
