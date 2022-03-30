@@ -16,6 +16,15 @@ declare namespace API {
     updatedAt: string;
   };
 
+  type Organization = {
+    id: string;
+    code: string;
+    name: string;
+    status: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+
   type CurrentUser = {
     name?: string;
     avatar?: string;

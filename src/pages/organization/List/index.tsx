@@ -1,32 +1,53 @@
-import React from 'react';
-import { Button } from 'antd';
-import { updateUser } from '@/services/api/api';
-import { aesEncrypt } from '@/utils/crypto';
+import type { ProColumns } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
 
-const doRegist = async () => {
-  await updateUser(
-    {
-      id: '1',
-      loginId: aesEncrypt('test'),
-      password: aesEncrypt('111'),
-      name: 'test person',
-      lang: 'zh_CN',
-      status: false,
+import { getAllOrganization } from '@/services/api/organization/organization';
+import { Badge } from 'antd';
+
+const columns: ProColumns<API.Organization>[] = [
+  {
+    title: 'Code',
+    dataIndex: 'code',
+    render: (_, item) => {
+      return <Badge status={item.status ? 'success' : 'default'} text={item.code} />;
     },
-    '0',
-  ).then((res) => {
-    console.log(res, 'updateUser');
-  });
-};
+  },
+  {
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
+    title: '名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createdAt',
+    valueType: 'date',
+  },
+  {
+    title: '修改时间',
+    dataIndex: 'createdAt',
+    valueType: 'date',
+  },
+];
 
-const Dashboard: React.FC = () => {
+export default () => {
   return (
-    <div>
-      <Button type="primary" onClick={doRegist}>
-        updateUser
-      </Button>
-    </div>
+    <>
+      <ProTable<API.Organization>
+        columns={columns}
+        request={getAllOrganization}
+        rowKey="id"
+        pagination={{
+          showSizeChanger: true,
+        }}
+        search={false}
+        options={false}
+        dateFormatter={(value) => {
+          return value.format('YYYY-MM-DD HH:mm:ss');
+        }}
+      />
+    </>
   );
 };
-
-export default Dashboard;
