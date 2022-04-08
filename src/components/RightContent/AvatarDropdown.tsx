@@ -6,7 +6,7 @@ import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import { outLogin } from '@/services/api/api';
-import type { MenuInfo } from 'rc-menu/lib/interface';
+import { MenuInfo } from 'rc-menu/lib/interface';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -21,6 +21,7 @@ const loginOut = async () => {
   const { redirect } = query;
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/login' && !redirect) {
+    localStorage.removeItem('accessToken');
     history.replace({
       pathname: '/login',
       search: stringify({

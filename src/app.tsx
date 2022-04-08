@@ -1,13 +1,14 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
+import { RunTimeLayoutConfig } from 'umi';
 import { history, Link, setLocale } from 'umi';
 import RightContent from '@/components/RightContent';
 import { currentUser as queryCurrentUser } from './services/api/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { Card } from 'antd';
+import { gotoWithRedirect } from './utils/navigate';
 
 setLocale('zh-CN', false);
 
@@ -33,21 +34,14 @@ export async function getInitialState(): Promise<{
       const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
-      history.push(loginPath);
+      return;
     }
-    return undefined;
   };
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings,
-    };
-  }
+
+  const currentUser = await fetchUserInfo();
   return {
     fetchUserInfo,
+    currentUser,
     settings: defaultSettings,
   };
 }
@@ -64,7 +58,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+        gotoWithRedirect(loginPath);
+      } else if (
+        localStorage.getItem('accessToken') &&
+        initialState?.currentUser &&
+        location.pathname === loginPath
+      ) {
+        history.push('/');
       }
     },
     links: isDev

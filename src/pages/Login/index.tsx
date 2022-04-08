@@ -51,6 +51,7 @@ const Login: React.FC = () => {
       }
       const msg = await login(data);
       if (msg.code === 0) {
+        localStorage.setItem('accessToken', msg.data.accessToken);
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -66,7 +67,6 @@ const Login: React.FC = () => {
       }
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
-      console.log(userLoginState);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',

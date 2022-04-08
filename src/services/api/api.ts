@@ -4,7 +4,7 @@ import { request } from '@/utils/request';
 export async function currentUser() {
   return request.get<{
     data: API.CurrentUser;
-  }>('/currentUser');
+  }>('/user/current-user');
 }
 
 // /** 退出登录接口 POST /api/login/outLogin */
