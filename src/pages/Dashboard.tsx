@@ -1,32 +1,32 @@
-import { Card } from 'antd'
-import React from 'react'
-import { history } from 'umi'
+import { Card } from 'antd';
+import React from 'react';
+import { history } from 'umi';
 
-const { Meta } = Card
+const { Meta } = Card;
 
 const getCardsData = () => {
   return [
     {
       style: { width: 400 },
-      cover: <img alt='example' src='https://cdn.casbin.com/static/img/organizations.png' />,
+      cover: <img alt="example" src="https://cdn.casbin.com/static/img/organizations.png" />,
       meta: {
         title: '组织',
         description: '用户容器',
       },
-      goto: '/organization',
+      goto: '/organizations',
     },
     {
       style: { width: 400 },
-      cover: <img alt='example' src='https://cdn.casbin.com/static/img/users.png' />,
+      cover: <img alt="example" src="https://cdn.casbin.com/static/img/users.png" />,
       meta: {
         title: '用户',
         description: '所有组织里的用户',
       },
-      goto: '/user',
+      goto: '/users',
     },
     {
       style: { width: 400 },
-      cover: <img alt='example' src='https://cdn.casbin.com/static/img/providers.png' />,
+      cover: <img alt="example" src="https://cdn.casbin.com/static/img/providers.png" />,
       meta: {
         title: '提供商',
         description: 'OAuth提供方',
@@ -34,15 +34,15 @@ const getCardsData = () => {
     },
     {
       style: { width: 400 },
-      cover: <img alt='example' src='https://cdn.casbin.com/static/img/applications.png' />,
+      cover: <img alt="example" src="https://cdn.casbin.com/static/img/applications.png" />,
       meta: {
         title: '应用',
         description: '需要鉴权的应用',
       },
-      goto: '/application',
+      goto: '/applications',
     },
-  ]
-}
+  ];
+};
 
 const Dashboard: React.FC = () => {
   return (
@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
             if (goto) {
               history.replace({
                 pathname: goto,
-              })
+              });
             }
           }}
         >
@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
         </Card>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

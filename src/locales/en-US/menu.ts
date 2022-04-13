@@ -1,8 +1,13 @@
 export default {
   'menu.welcome': 'Welcome',
   'menu.organization': 'Organization',
+  'menu.organization.organizations': 'Organization List',
+  'menu.organization.organization-application': 'Organization-Application',
   'menu.user': 'User',
+  'menu.user.users': 'User List',
   'menu.application': 'Application',
+  'menu.application.applications': 'Application List',
+  'menu.application.application-user': 'Application-User',
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
   'menu.admin': 'Admin',

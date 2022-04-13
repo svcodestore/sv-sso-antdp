@@ -1,8 +1,13 @@
 export default {
   'menu.welcome': '欢迎',
   'menu.organization': '组织',
+  'menu.organization.organizations': '组织列表',
+  'menu.organization.organization-application': '组织-应用',
   'menu.user': '用户',
+  'menu.user.users': '用户列表',
   'menu.application': '应用',
+  'menu.application.applications': '应用列表',
+  'menu.application.application-user': '应用-用户',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',

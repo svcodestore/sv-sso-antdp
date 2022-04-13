@@ -2,6 +2,11 @@
 /* eslint-disable */
 
 declare namespace API {
+  type ModificationFields = {
+    createdAt: string;
+    updatedAt: string;
+  };
+
   type User = {
     id: string;
     uuid: string;
@@ -12,18 +17,20 @@ declare namespace API {
     email: string;
     lang: string;
     status: boolean;
-    createdAt: string;
-    updatedAt: string;
-  };
+  } & ModificationFields;
 
   type Organization = {
     id: string;
     code: string;
     name: string;
     status: boolean;
-    createdAt: string;
-    updatedAt: string;
-  };
+  } & ModificationFields;
+
+  type OrganizationApplication = {
+    organizationsList: Organization;
+    applicationsList: Application;
+    status: boolean;
+  } & ModificationFields;
 
   type Application = {
     id: string;
@@ -36,9 +43,13 @@ declare namespace API {
     clientSecret: string;
     redirectUris: string;
     tokenFormat: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  } & ModificationFields;
+
+  type ApplicationUser = {
+    applicationsList: Application;
+    usersList: User;
+    status: boolean;
+  } & ModificationFields;
 
   type CurrentUser = {
     name?: string;
