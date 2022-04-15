@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, useModel } from 'umi';
 import { debounce } from 'lodash';
-import { login } from '@/services/api/api';
+import { getCurrentApplication, login } from '@/services/api/api';
 
 import styles from './index.less';
 import { aesEncrypt } from '@/utils/crypto';
@@ -38,6 +38,17 @@ const Login: React.FC = () => {
       }));
     }
   };
+
+  const {
+    location: { pathname, query: q },
+  } = history;
+  if (pathname === '/login/oauth2.0/authorize') {
+    console.log(q);
+  }
+
+  getCurrentApplication('0').then((res) => {
+    console.log(res);
+  });
 
   const handleSubmit = debounce(async (values: API.LoginParams) => {
     try {

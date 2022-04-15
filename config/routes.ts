@@ -3,6 +3,17 @@
     path: '/login',
     layout: false,
     component: './Login',
+    routes: [
+      {
+        path: '/oauth2.0',
+        routes: [
+          {
+            path: '/authorize',
+            component: './Login',
+          },
+        ],
+      },
+    ],
   },
   {
     path: '/dashboard',

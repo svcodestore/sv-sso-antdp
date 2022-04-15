@@ -4,5 +4,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {
     "editor.defaultFormatter": "numso.prettier-standard-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   }
 }

@@ -1,7 +1,7 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import { RunTimeLayoutConfig } from 'umi';
+import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link, setLocale } from 'umi';
 import RightContent from '@/components/RightContent';
 import { currentUser as queryCurrentUser } from './services/api/api';
@@ -56,15 +56,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     onPageChange: () => {
       const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        gotoWithRedirect(loginPath);
-      } else if (
-        localStorage.getItem('accessToken') &&
-        initialState?.currentUser &&
-        location.pathname === loginPath
-      ) {
-        history.push('/');
+      if (location.pathname !== '/login/oauth2.0/authorize') {
+        // 如果没有登录，重定向到 login
+        if (!initialState?.currentUser && location.pathname !== loginPath) {
+          gotoWithRedirect(loginPath);
+        } else if (
+          localStorage.getItem('accessToken') &&
+          initialState?.currentUser &&
+          location.pathname === loginPath
+        ) {
+          history.push('/');
+        }
       }
     },
     links: isDev

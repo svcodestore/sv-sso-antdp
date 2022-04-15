@@ -20,3 +20,7 @@ export async function login(body: API.LoginParams) {
 export async function registUser(user: API.User) {
   return request.post('/register', { data: user });
 }
+
+export async function getCurrentApplication(id: string) {
+  return request.get<API.Application>('/application/current-application/' + id);
+}
