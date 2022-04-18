@@ -73,12 +73,17 @@ declare namespace API {
   };
 
   type LoginResult = {
-    // status?: string;
-    type?: string;
-    // currentAuthority?: string;
-    code?: number;
-    data?: any;
-    message?: string;
+    accessToken: string;
+    refreshToken: string;
+    user: User;
+  };
+
+  type RequestGrantCodeParams = {
+    responseType: string;
+    clientId: string;
+    redirectUri: string;
+    scope?: string;
+    state?: string;
   };
 
   type PageParams = {
@@ -114,9 +119,9 @@ declare namespace API {
   };
 
   type LoginParams = {
+    clientId: string;
     username?: string;
     password?: string;
-    autoLogin?: boolean;
     type?: string;
   };
 

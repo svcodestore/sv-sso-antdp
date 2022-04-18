@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, useModel } from 'umi';
 import { debounce } from 'lodash';
-import { getCurrentApplication, login } from '@/services/api/api';
+import { login, getGrantCode, getCurrentApplication } from '@/services/api/api';
 
 import styles from './index.less';
 import { aesEncrypt } from '@/utils/crypto';
@@ -43,17 +43,24 @@ const Login: React.FC = () => {
     location: { pathname, query: q },
   } = history;
   if (pathname === '/login/oauth2.0/authorize') {
-    console.log(q);
+    getGrantCode({
+      responseType: q?.response_type as string,
+      redirectUri: q?.redirect_uri as string,
+      clientId: q?.client_id as string,
+    }).then((res) => {
+      window.location.href = (q?.redirect_uri + '?code=' + res.code) as string;
+    });
   }
 
-  getCurrentApplication('0').then((res) => {
-    console.log(res);
+  getCurrentApplication().then((res) => {
+    localStorage.setItem('clientId', res.clientId);
   });
 
   const handleSubmit = debounce(async (values: API.LoginParams) => {
     try {
       // 登录
       const data = { ...values, type };
+      data.clientId = localStorage.getItem('clientId') || '';
       if (values.username) {
         data.username = aesEncrypt(values.username);
       }
@@ -61,8 +68,8 @@ const Login: React.FC = () => {
         data.password = aesEncrypt(values.password);
       }
       const msg = await login(data);
-      if (msg.code === 0) {
-        localStorage.setItem('accessToken', msg.data.accessToken);
+      if (msg) {
+        localStorage.setItem('accessToken', msg.accessToken);
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',

@@ -21,28 +21,50 @@ const getAuthorizationHeader = () => {
   return h;
 };
 
+type ResultType<T> = {
+  code: number;
+  data: T;
+  message: string;
+};
+
 const getContentTypeHeader = () => {
   return { 'Content-Type': 'application/x-www-form-urlencoded' };
 };
 
 class Req {
   get<T>(url: string) {
-    return r<T>(url, {
-      method: 'GET',
-      prefix,
-      headers: { ...getAuthorizationHeader() },
-      skipErrorHandler: true,
-      errorHandler,
+    return new Promise<T>((resolve, reject) => {
+      r<ResultType<T>>(url, {
+        method: 'GET',
+        prefix,
+        headers: { ...getAuthorizationHeader() },
+        skipErrorHandler: true,
+        errorHandler,
+      })
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
     });
   }
 
   delete<T>(url: string) {
-    return r<T>(url, {
-      prefix,
-      method: 'DELETE',
-      headers: { ...getAuthorizationHeader() },
-      skipErrorHandler: true,
-      errorHandler,
+    return new Promise<T>((resolve, reject) => {
+      r<ResultType<T>>(url, {
+        prefix,
+        method: 'DELETE',
+        headers: { ...getAuthorizationHeader() },
+        skipErrorHandler: true,
+        errorHandler,
+      })
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
     });
   }
 
@@ -59,7 +81,16 @@ class Req {
     if (o.data) {
       o.data = qs.stringify(o.data);
     }
-    return r<T>(url, o) as unknown as T;
+
+    return new Promise<T>((resolve, reject) => {
+      r<T>(url, o)
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
+    });
   }
 
   put<T>(url: string, options?: any) {
@@ -74,20 +105,36 @@ class Req {
     if (o.data) {
       o.data = qs.stringify(o.data);
     }
-    return r<T>(url, o);
+    return new Promise<T>((resolve, reject) => {
+      r<T>(url, o)
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
+    });
   }
 
   patch<T>(url: string, options?: any) {
     if (options.data) {
       options.data = qs.stringify(options.data);
     }
-    return r<T>(url, {
-      ...options,
-      prefix,
-      method: 'PATCH',
-      headers: { ...getContentTypeHeader(), ...getAuthorizationHeader() },
-      skipErrorHandler: true,
-      errorHandler,
+    return new Promise<T>((resolve, reject) => {
+      r<T>(url, {
+        ...options,
+        prefix,
+        method: 'PATCH',
+        headers: { ...getContentTypeHeader(), ...getAuthorizationHeader() },
+        skipErrorHandler: true,
+        errorHandler,
+      })
+        .then((result) => {
+          resolve(result.data);
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
     });
   }
 }
