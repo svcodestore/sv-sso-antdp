@@ -82,6 +82,7 @@ declare namespace API {
     accessToken?: string;
     refreshToken?: string;
     user?: User;
+    errNameOrPassword?: boolean;
   };
 
   type RequestGrantCodeParams = {

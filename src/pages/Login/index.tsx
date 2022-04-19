@@ -48,7 +48,11 @@ const Login: React.FC = () => {
       redirectUri: q?.redirect_uri as string,
       clientId: q?.client_id as string,
     }).then((res) => {
-      window.location.href = (q?.redirect_uri + '?code=' + res.code) as string;
+      window.location.href = (q?.redirect_uri +
+        '?code=' +
+        res.code +
+        '&client_id=' +
+        q?.client_id) as string;
     });
   }
 
@@ -84,7 +88,7 @@ const Login: React.FC = () => {
         return;
       }
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState({ ...msg, errNameOrPassword: true });
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -93,7 +97,7 @@ const Login: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   }, 300);
-  const { accessToken } = userLoginState;
+  const { errNameOrPassword } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -108,7 +112,7 @@ const Login: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {accessToken === void 0 && (
+          {errNameOrPassword && (
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',
