@@ -35,5 +35,5 @@ export async function getApplicationById(id: string) {
 }
 
 export async function getAllApplication() {
-  return request.get<API.Application[]>(apiPath.getAllApplication);
+  return request.getRaw<API.Application[]>(apiPath.getAllApplication);
 }

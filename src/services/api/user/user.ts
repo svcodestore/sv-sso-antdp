@@ -1,7 +1,7 @@
 import { request } from '@/utils/request';
 
 export async function getAllUser() {
-  return request.get<API.User>('/users');
+  return request.getRaw<API.User[]>('/users');
 }
 
 export async function updateUser(user: API.User, currentUserId: string) {

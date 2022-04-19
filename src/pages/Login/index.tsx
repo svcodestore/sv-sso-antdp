@@ -68,7 +68,7 @@ const Login: React.FC = () => {
         data.password = aesEncrypt(values.password);
       }
       const msg = await login(data);
-      if (msg) {
+      if (msg.accessToken) {
         localStorage.setItem('accessToken', msg.accessToken);
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -93,7 +93,7 @@ const Login: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   }, 300);
-  const { code } = userLoginState;
+  const { accessToken } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -108,7 +108,7 @@ const Login: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {code !== void 0 && code !== 0 && (
+          {accessToken === void 0 && (
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',

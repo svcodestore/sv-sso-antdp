@@ -52,5 +52,5 @@ export async function getApplicationUserById(applicationId: string, userId: stri
 }
 
 export async function getAllApplicationUser() {
-  return request.get<API.ApplicationUser[]>(apiPath.getAllApplicationUser);
+  return request.getRaw<API.ApplicationUser[]>(apiPath.getAllApplicationUser);
 }

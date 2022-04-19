@@ -21,12 +21,6 @@ const getAuthorizationHeader = () => {
   return h;
 };
 
-type ResultType<T> = {
-  code: number;
-  data: T;
-  message: string;
-};
-
 const getContentTypeHeader = () => {
   return { 'Content-Type': 'application/x-www-form-urlencoded' };
 };
@@ -34,7 +28,7 @@ const getContentTypeHeader = () => {
 class Req {
   get<T>(url: string) {
     return new Promise<T>((resolve, reject) => {
-      r<ResultType<T>>(url, {
+      r<API.ResultType<T>>(url, {
         method: 'GET',
         prefix,
         headers: { ...getAuthorizationHeader() },
@@ -50,9 +44,19 @@ class Req {
     });
   }
 
+  getRaw<T>(url: string) {
+    return r<API.ResultType<T>>(url, {
+      method: 'GET',
+      prefix,
+      headers: { ...getAuthorizationHeader() },
+      skipErrorHandler: true,
+      errorHandler,
+    });
+  }
+
   delete<T>(url: string) {
     return new Promise<T>((resolve, reject) => {
-      r<ResultType<T>>(url, {
+      r<API.ResultType<T>>(url, {
         prefix,
         method: 'DELETE',
         headers: { ...getAuthorizationHeader() },
@@ -65,6 +69,16 @@ class Req {
         .catch((reason) => {
           reject(reason);
         });
+    });
+  }
+
+  deleteRaw<T>(url: string) {
+    return r<API.ResultType<T>>(url, {
+      prefix,
+      method: 'DELETE',
+      headers: { ...getAuthorizationHeader() },
+      skipErrorHandler: true,
+      errorHandler,
     });
   }
 
@@ -93,6 +107,23 @@ class Req {
     });
   }
 
+  postRaw<T>(url: string, options?: any) {
+    const o = {
+      ...options,
+      prefix,
+      method: 'POST',
+      headers: { ...getContentTypeHeader(), ...getAuthorizationHeader() },
+      skipErrorHandler: true,
+      errorHandler,
+    };
+
+    if (o.data) {
+      o.data = qs.stringify(o.data);
+    }
+
+    return r<T>(url, o);
+  }
+
   put<T>(url: string, options?: any) {
     const o = {
       ...options,
@@ -116,6 +147,21 @@ class Req {
     });
   }
 
+  putRaw<T>(url: string, options?: any) {
+    const o = {
+      ...options,
+      prefix,
+      method: 'PUT',
+      headers: { ...getContentTypeHeader(), ...getAuthorizationHeader() },
+      skipErrorHandler: true,
+      errorHandler,
+    };
+    if (o.data) {
+      o.data = qs.stringify(o.data);
+    }
+    return r<T>(url, o);
+  }
+
   patch<T>(url: string, options?: any) {
     if (options.data) {
       options.data = qs.stringify(options.data);
@@ -135,6 +181,20 @@ class Req {
         .catch((reason) => {
           reject(reason);
         });
+    });
+  }
+
+  patchRaw<T>(url: string, options?: any) {
+    if (options.data) {
+      options.data = qs.stringify(options.data);
+    }
+    return r<T>(url, {
+      ...options,
+      prefix,
+      method: 'PATCH',
+      headers: { ...getContentTypeHeader(), ...getAuthorizationHeader() },
+      skipErrorHandler: true,
+      errorHandler,
     });
   }
 }

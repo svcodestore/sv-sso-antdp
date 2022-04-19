@@ -2,6 +2,12 @@
 /* eslint-disable */
 
 declare namespace API {
+  type ResultType<T> = {
+    code: number;
+    data: T;
+    message: string;
+  };
+
   type ModificationFields = {
     createdAt: string;
     updatedAt: string;
@@ -73,9 +79,9 @@ declare namespace API {
   };
 
   type LoginResult = {
-    accessToken: string;
-    refreshToken: string;
-    user: User;
+    accessToken?: string;
+    refreshToken?: string;
+    user?: User;
   };
 
   type RequestGrantCodeParams = {

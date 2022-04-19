@@ -66,5 +66,5 @@ export async function getOrganizationApplicationById(
 }
 
 export async function getAllOrganizationApplication() {
-  return request.get<API.OrganizationApplication[]>(apiPath.getAllOrganizationApplication);
+  return request.getRaw<API.OrganizationApplication[]>(apiPath.getAllOrganizationApplication);
 }

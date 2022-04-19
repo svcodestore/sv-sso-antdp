@@ -38,5 +38,5 @@ export async function getOrganizationById(id: string) {
 }
 
 export async function getAllOrganization() {
-  return request.get<API.Organization[]>(apiPath.getAllOrganization);
+  return request.getRaw<API.Organization[]>(apiPath.getAllOrganization);
 }
