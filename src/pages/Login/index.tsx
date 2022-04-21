@@ -43,17 +43,21 @@ const Login: React.FC = () => {
     location: { pathname, query: q },
   } = history;
   if (pathname === '/login/oauth2.0/authorize') {
-    getGrantCode({
-      responseType: q?.response_type as string,
-      redirectUri: q?.redirect_uri as string,
-      clientId: q?.client_id as string,
-    }).then((res) => {
-      window.location.href = (q?.redirect_uri +
-        '?code=' +
-        res.code +
-        '&client_id=' +
-        q?.client_id) as string;
-    });
+    try {
+      getGrantCode({
+        responseType: q?.response_type as string,
+        redirectUri: q?.redirect_uri as string,
+        clientId: q?.client_id as string,
+      }).then((res) => {
+        window.location.href = (q?.redirect_uri +
+          '?code=' +
+          res.code +
+          '&client_id=' +
+          q?.client_id) as string;
+      });
+    } catch {
+      message.error('authorize fail');
+    }
   }
 
   getCurrentApplication().then((res) => {
