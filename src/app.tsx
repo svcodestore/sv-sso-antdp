@@ -57,7 +57,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       const { location } = history;
       if (location.pathname !== '/login/oauth2.0/authorize') {
         // 如果没有登录，重定向到 login
-        if (!initialState?.currentUser && location.pathname !== loginPath) {
+        if (
+          !initialState?.currentUser &&
+          ![loginPath, loginPath + '/'].includes(location.pathname)
+        ) {
           gotoWithRedirect(loginPath);
         } else if (
           localStorage.getItem('accessToken') &&
