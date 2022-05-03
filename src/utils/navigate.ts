@@ -5,11 +5,10 @@ export function gotoWithRedirect(url: string) {
   const { search, pathname } = history.location;
   history.push({
     pathname: url,
-    search:
-      url !== pathname
-        ? stringify({
-            redirect: pathname + search,
-          })
-        : search,
+    search: [url, url + '/'].includes(pathname)
+      ? search
+      : stringify({
+          redirect: pathname + search,
+        }),
   });
 }
