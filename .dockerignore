@@ -1,0 +1,35 @@
+/node_modules/
+/src/.umi*
+
+/src/utils/request-temp.js
+_roadhog-api-doc
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-error.log
+
+/coverage
+.idea
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+*bak
+
+
+# visual studio code
+.history
+*.log
+functions/*
+.temp/**
+
+# umi
+.umi
+.umi-production
+
+# screenshot
+screenshot
+.firebase
+.eslintcache
+
+build
