@@ -2,17 +2,15 @@ import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import { RunTimeLayoutConfig } from 'umi';
-import { history, Link, setLocale } from 'umi';
+import { history, setLocale } from 'umi';
 import RightContent from '@/components/RightContent';
 import { currentUser as queryCurrentUser } from './services/api/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { Card } from 'antd';
 import { gotoWithRedirect } from './utils/navigate';
 
 setLocale('zh-CN', false);
 
-const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -71,18 +69,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         }
       }
     },
-    links: isDev
-      ? [
-          <Link key={1} to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-          <Link key={2} to="/~docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
-        ]
-      : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

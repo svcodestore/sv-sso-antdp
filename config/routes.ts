@@ -52,8 +52,15 @@
     icon: 'user',
     routes: [
       {
+        hideInMenu: true,
+        path: '/user/:id',
+        name: 'userDetail',
+        component: './user/Detail',
+      },
+      {
         path: '/users',
         name: 'users',
+        component: './user/List',
       },
     ],
   },
@@ -61,6 +68,11 @@
     hideInMenu: true,
     path: '/users',
     component: './user/List',
+  },
+  {
+    hideInMenu: true,
+    path: '/new-user',
+    component: './user/New',
   },
   {
     path: '/application',

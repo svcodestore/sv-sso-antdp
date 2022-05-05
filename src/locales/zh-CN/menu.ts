@@ -4,6 +4,7 @@ export default {
   'menu.organization.organizations': '组织列表',
   'menu.organization.organization-application': '组织-应用',
   'menu.user': '用户',
+  'menu.user.userDetail': '用户详情',
   'menu.user.users': '用户列表',
   'menu.application': '应用',
   'menu.application.applications': '应用列表',
