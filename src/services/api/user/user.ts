@@ -8,7 +8,11 @@ export async function getUserById(id: string) {
   return request.get<API.User>('/user/' + id);
 }
 
-export async function updateUser(user: API.User, currentUserId: string) {
+export async function delUserById(id: string) {
+  return request.delete('/user/' + id);
+}
+
+export async function updateUserById(user: Partial<API.User>, currentUserId: string) {
   return request.patch<API.User>('/user/' + user.id, {
     data: {
       currentUserId,

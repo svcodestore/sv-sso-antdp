@@ -36,7 +36,13 @@ class Req {
         errorHandler,
       })
         .then((result) => {
-          resolve(result.data);
+          // @ts-ignore
+          if (result.code === 0) {
+            resolve(result.data);
+          } else {
+            // @ts-ignore
+            reject(result.message);
+          }
         })
         .catch((reason) => {
           reject(reason);
@@ -64,7 +70,13 @@ class Req {
         errorHandler,
       })
         .then((result) => {
-          resolve(result.data);
+          // @ts-ignore
+          if (result.code === 0) {
+            resolve(result.data);
+          } else {
+            // @ts-ignore
+            reject(result.message);
+          }
         })
         .catch((reason) => {
           reject(reason);
@@ -99,7 +111,13 @@ class Req {
     return new Promise<T>((resolve, reject) => {
       r<T>(url, o)
         .then((result) => {
-          resolve(result.data);
+          // @ts-ignore
+          if (result.code === 0) {
+            resolve(result.data);
+          } else {
+            // @ts-ignore
+            reject(result.message);
+          }
         })
         .catch((reason) => {
           reject(reason);
@@ -139,7 +157,13 @@ class Req {
     return new Promise<T>((resolve, reject) => {
       r<T>(url, o)
         .then((result) => {
-          resolve(result.data);
+          // @ts-ignore
+          if (result.code === 0) {
+            resolve(result.data);
+          } else {
+            // @ts-ignore
+            reject(result.message);
+          }
         })
         .catch((reason) => {
           reject(reason);
@@ -176,7 +200,13 @@ class Req {
         errorHandler,
       })
         .then((result) => {
-          resolve(result.data);
+          // @ts-ignore
+          if (result.code === 0) {
+            resolve(result.data);
+          } else {
+            // @ts-ignore
+            reject(result.message);
+          }
         })
         .catch((reason) => {
           reject(reason);

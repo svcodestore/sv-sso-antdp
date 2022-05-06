@@ -23,6 +23,9 @@ declare namespace API {
     email: string;
     lang: string;
     status: boolean;
+    alias: string;
+    createdByUser?: User;
+    updatedByUser?: User;
   } & ModificationFields;
 
   type Organization = {
