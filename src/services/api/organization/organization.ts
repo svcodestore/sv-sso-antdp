@@ -22,7 +22,7 @@ export async function deleteOrganizationById(id: string) {
 }
 
 export async function updateOrganizationById(
-  organization: API.Organization,
+  organization: Partial<API.Organization>,
   currentUserId: string,
 ) {
   return request.patch<API.Organization>(apiPath.updateOrganizationById + organization.id, {

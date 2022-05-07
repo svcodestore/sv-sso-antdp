@@ -2,6 +2,7 @@ export default {
   'menu.welcome': '欢迎',
   'menu.organization': '组织',
   'menu.organization.organizations': '组织列表',
+  'menu.organization.organizationEdit': '编辑组织',
   'menu.organization.organization-application': '组织-应用',
   'menu.user': '用户',
   'menu.user.userDetail': '用户详情',

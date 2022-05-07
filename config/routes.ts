@@ -31,6 +31,12 @@
         name: 'organizations',
       },
       {
+        hideInMenu: true,
+        path: '/organization/:id',
+        name: 'organizationEdit',
+        component: './organization/Edit',
+      },
+      {
         path: '/organization-application',
         name: 'organization-application',
       },
@@ -40,6 +46,11 @@
     hideInMenu: true,
     path: '/organizations',
     component: './organization/List',
+  },
+  {
+    hideInMenu: true,
+    path: '/new-organization',
+    component: './organization/New',
   },
   {
     hideInMenu: true,
