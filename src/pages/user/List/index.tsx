@@ -60,7 +60,7 @@ export default () => {
     },
     {
       title: '修改时间',
-      dataIndex: 'createdAt',
+      dataIndex: 'updatedAt',
       valueType: 'date',
     },
     {
