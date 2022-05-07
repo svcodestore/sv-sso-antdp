@@ -21,7 +21,10 @@ export async function deleteApplicationById(id: string) {
   return request.delete(apiPath.deleteApplicationById + id);
 }
 
-export async function updateApplicationById(Application: API.Application, currentUserId: string) {
+export async function updateApplicationById(
+  Application: Partial<API.Application>,
+  currentUserId: string,
+) {
   return request.patch<API.Application>(apiPath.updateApplicationById + Application.id, {
     data: {
       currentUserId,

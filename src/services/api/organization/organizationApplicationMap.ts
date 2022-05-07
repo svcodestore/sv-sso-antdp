@@ -9,13 +9,15 @@ const apiPath = {
 };
 
 export async function createOrganizationApplication(
-  organizationApplication: API.OrganizationApplication,
+  organizationId: string,
+  applicationId: string,
   currentUserId: string,
 ) {
   return request.post<API.OrganizationApplication>(apiPath.createOrganizationApplication, {
     data: {
+      organizationId,
+      applicationId,
       currentUserId,
-      ...organizationApplication,
     },
   });
 }

@@ -58,6 +58,11 @@
     component: './organization/OrganizationApplicationMapList',
   },
   {
+    hideInMenu: true,
+    path: '/new-organization-map-application',
+    component: './organization/OrganizationApplicationMapList/New',
+  },
+  {
     path: '/user',
     name: 'user',
     icon: 'user',
@@ -95,10 +100,20 @@
         name: 'applications',
       },
       {
+        hideInMenu: true,
+        path: '/application/:id',
+        component: './application/Edit',
+      },
+      {
         path: '/application-user',
         name: 'application-user',
       },
     ],
+  },
+  {
+    hideInMenu: true,
+    path: '/new-application',
+    component: './application/New',
   },
   {
     hideInMenu: true,
@@ -109,6 +124,11 @@
     hideInMenu: true,
     path: '/application-user',
     component: './application/ApplicationUserMapList',
+  },
+  {
+    hideInMenu: true,
+    path: '/new-application-map-user',
+    component: './application/ApplicationUserMapList/New',
   },
   {
     path: '/',

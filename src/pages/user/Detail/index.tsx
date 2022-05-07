@@ -148,13 +148,13 @@ export default (props: any) => {
               />
             </Space>
           </Form.Item>
+          <Form.Item name="name" label="用户名">
+            <Input />
+          </Form.Item>
           <Form.Item name="loginId" label="帐号">
             <Input />
           </Form.Item>
           <Form.Item name="password" label="密码">
-            <Input />
-          </Form.Item>
-          <Form.Item name="name" label="用户名">
             <Input />
           </Form.Item>
           <Form.Item name="status" label="状态">

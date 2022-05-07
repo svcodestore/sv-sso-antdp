@@ -9,13 +9,15 @@ const apiPath = {
 };
 
 export async function createApplicationUser(
-  applicationUser: API.ApplicationUser,
+  applicationId: string,
+  userId: string,
   currentUserId: string,
 ) {
   return request.post<API.ApplicationUser>(apiPath.createApplicationUser, {
     data: {
+      applicationId,
+      userId,
       currentUserId,
-      ...applicationUser,
     },
   });
 }
