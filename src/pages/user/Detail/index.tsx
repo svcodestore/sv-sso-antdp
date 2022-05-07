@@ -53,7 +53,12 @@ export default (props: any) => {
       for (const key in values) {
         const v = values[key];
         if (v !== undefined) {
-          _u[key] = v;
+          if (key === 'status') {
+            // @ts-ignore 兼容后端
+            _u[key] = v ? '1' : '0';
+          } else {
+            _u[key] = v;
+          }
         }
       }
       updateUserById(_u, initialState?.currentUser?.id as string)
