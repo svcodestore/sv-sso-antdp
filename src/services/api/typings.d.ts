@@ -51,6 +51,7 @@ declare namespace API {
     clientId: string;
     clientSecret: string;
     redirectUris: string;
+    loginUris: string;
     tokenFormat: string;
   } & ModificationFields;
 
