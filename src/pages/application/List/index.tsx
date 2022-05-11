@@ -28,7 +28,6 @@ export default () => {
     {
       title: 'ID',
       dataIndex: 'id',
-
       copyable: true,
     },
     {
@@ -38,31 +37,31 @@ export default () => {
     {
       title: '内网地址',
       dataIndex: 'internalUrl',
-
       copyable: true,
     },
     {
       title: '外网地址',
       dataIndex: 'homepageUrl',
-
       copyable: true,
     },
     {
       title: '客户端ID',
       dataIndex: 'clientId',
-
       copyable: true,
     },
     {
       title: '客户端密钥',
       dataIndex: 'clientSecret',
-
+      copyable: true,
+    },
+    {
+      title: '登录地址',
+      dataIndex: 'loginUris',
       copyable: true,
     },
     {
       title: '重定向地址',
       dataIndex: 'redirectUris',
-
       copyable: true,
     },
     {

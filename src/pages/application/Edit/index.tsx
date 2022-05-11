@@ -91,6 +91,9 @@ export default (props: any) => {
         <Form.Item name="homepageUrl" label="外网地址">
           <Input />
         </Form.Item>
+        <Form.Item name="loginUris" label="登录地址">
+          <Input />
+        </Form.Item>
         <Form.Item name="redirectUris" label="重定向地址">
           <Input />
         </Form.Item>

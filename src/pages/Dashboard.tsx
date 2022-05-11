@@ -7,7 +7,6 @@ const { Meta } = Card;
 const getCardsData = () => {
   return [
     {
-      style: { width: 400 },
       cover: <img alt="example" src="https://cdn.casbin.com/static/img/organizations.png" />,
       meta: {
         title: '组织',
@@ -16,7 +15,6 @@ const getCardsData = () => {
       goto: '/organizations',
     },
     {
-      style: { width: 400 },
       cover: <img alt="example" src="https://cdn.casbin.com/static/img/users.png" />,
       meta: {
         title: '用户',
@@ -25,7 +23,6 @@ const getCardsData = () => {
       goto: '/users',
     },
     {
-      style: { width: 400 },
       cover: <img alt="example" src="https://cdn.casbin.com/static/img/providers.png" />,
       meta: {
         title: '提供商',
@@ -33,7 +30,6 @@ const getCardsData = () => {
       },
     },
     {
-      style: { width: 400 },
       cover: <img alt="example" src="https://cdn.casbin.com/static/img/applications.png" />,
       meta: {
         title: '应用',
@@ -46,12 +42,12 @@ const getCardsData = () => {
 
 const Dashboard: React.FC = () => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-      {getCardsData().map(({ style, cover, meta, goto }) => (
+    <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+      {getCardsData().map(({ cover, meta, goto }) => (
         <Card
           hoverable
           key={Math.random()}
-          style={style}
+          style={{ margin: 20 }}
           cover={cover}
           onClick={() => {
             if (goto) {

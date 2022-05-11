@@ -58,6 +58,9 @@ export default () => {
         <Form.Item name="homepageUrl" label="外网地址" rules={[{ type: 'url' }]}>
           <Input />
         </Form.Item>
+        <Form.Item name="loginUris" label="登录地址" rules={[{ type: 'url' }]}>
+          <Input />
+        </Form.Item>
         <Form.Item
           name="redirectUris"
           label="重定向地址"
