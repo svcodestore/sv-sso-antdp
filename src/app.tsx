@@ -1,4 +1,4 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import type { MenuDataItem, Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
@@ -8,6 +8,8 @@ import defaultSettings from '../config/defaultSettings';
 import { Card } from 'antd';
 import { getCurrentApplication } from './services/api/application/application';
 import { getCurrentUser } from './services/api/user/user';
+import { getMenus } from './services/api/menu';
+import { sortMenuDataItems, toMenuDataItems } from './utils/menu';
 
 setLocale('zh-CN', false);
 
@@ -27,6 +29,7 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const app = await getCurrentApplication();
+  localStorage.setItem('applicationId', app.id);
   localStorage.setItem('loginUris', app.loginUris);
   localStorage.setItem('clientId', app.clientId);
   localStorage.setItem('redirectUris;', app.redirectUris);
@@ -46,6 +49,7 @@ export async function getInitialState(): Promise<{
 
   if (localStorage.getItem('accessToken')) {
     const currentUser = await fetchUserInfo();
+    localStorage.setItem('userId', currentUser?.id || '');
     // @ts-ignore
     o.currentUser = currentUser;
   }
@@ -56,6 +60,20 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
+    menu: {
+      request: async () => {
+        const applicationId = localStorage.getItem('applicationId') || '';
+        const userId = localStorage.getItem('userId') || '';
+        const menus = await getMenus(applicationId, userId);
+        if (!menus) return [];
+
+        const menuDataItems: MenuDataItem[] = [];
+        toMenuDataItems(menus, menuDataItems);
+        sortMenuDataItems(menuDataItems);
+        console.log(menuDataItems);
+        return menuDataItems;
+      },
+    },
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {

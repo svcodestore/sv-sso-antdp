@@ -156,4 +156,26 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
+  type Menu = {
+    pid: string;
+    applicationId: string;
+    code: string;
+    name: string;
+    sortNo: number;
+    path: string;
+    redirect: string;
+    component: string;
+    icon: string;
+    hide: boolean;
+  } & BaseFields;
+
+  type BaseFields = {
+    id: string;
+    status: boolean;
+    createdAt: string;
+    createdBy: string;
+    updatedAt: string;
+    updatedBy: string;
+  };
 }
