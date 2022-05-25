@@ -1,5 +1,10 @@
 import { request } from '@/utils/request';
 
+/** 获取当前的用户 GET /api/currentUser */
+export async function getCurrentUser() {
+  return request.get<API.CurrentUser>('/user/current-user');
+}
+
 export async function getAllUser() {
   return request.getRaw<API.User[]>('/users');
 }

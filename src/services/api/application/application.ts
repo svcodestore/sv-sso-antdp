@@ -1,12 +1,17 @@
 import { request } from '@/utils/request';
 
 const apiPath = {
+  currentApplication: '/application/current-application',
   createApplication: '/application',
   deleteApplicationById: '/application/',
   updateApplicationById: '/application/',
   getApplicationById: '/application/',
   getAllApplication: '/applications',
 };
+
+export async function getCurrentApplication() {
+  return request.get<API.Application>(apiPath.currentApplication);
+}
 
 export async function createApplication(Application: API.Application, currentUserId: string) {
   return request.post<API.Application>(apiPath.createApplication, {

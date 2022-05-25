@@ -1,17 +1,15 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { SettingDrawer } from '@ant-design/pro-layout';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import { RunTimeLayoutConfig } from 'umi';
-import { history, setLocale } from 'umi';
+import type { RunTimeLayoutConfig } from 'umi';
+import { history } from 'umi';
+import { setLocale } from 'umi';
 import RightContent from '@/components/RightContent';
-import { currentUser as queryCurrentUser } from './services/api/api';
 import defaultSettings from '../config/defaultSettings';
 import { Card } from 'antd';
-import { gotoWithRedirect } from './utils/navigate';
+import { getCurrentApplication } from './services/api/application/application';
+import { getCurrentUser } from './services/api/user/user';
 
 setLocale('zh-CN', false);
-
-const loginPath = '/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -25,26 +23,38 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   loading?: boolean;
+  currentApplication?: API.Application;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
+  const app = await getCurrentApplication();
+  localStorage.setItem('loginUris', app.loginUris);
+  localStorage.setItem('clientId', app.clientId);
+  localStorage.setItem('redirectUris;', app.redirectUris);
+
   const fetchUserInfo = async () => {
     try {
-      return await queryCurrentUser();
+      return await getCurrentUser();
     } catch (error) {
       return;
     }
   };
-
-  const currentUser = await fetchUserInfo();
-  return {
+  const o = {
     fetchUserInfo,
-    currentUser,
     settings: defaultSettings,
+    currentApplication: app,
   };
+
+  if (localStorage.getItem('accessToken')) {
+    const currentUser = await fetchUserInfo();
+    // @ts-ignore
+    o.currentUser = currentUser;
+  }
+
+  return o;
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -53,48 +63,20 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     onPageChange: () => {
       const { location } = history;
-      if (location.pathname !== '/login/oauth2.0/authorize') {
-        // 如果没有登录，重定向到 login
-        if (
-          !initialState?.currentUser &&
-          ![loginPath, loginPath + '/'].includes(location.pathname)
-        ) {
-          gotoWithRedirect(loginPath);
-        } else if (
-          localStorage.getItem('accessToken') &&
-          initialState?.currentUser &&
-          location.pathname === loginPath
-        ) {
-          history.push('/');
-        }
+      const { redirectUris } = initialState?.currentApplication || {};
+      const url = new URL(redirectUris || '');
+      if (initialState?.currentUser && url.pathname === location.pathname) {
+        history.push('/');
       }
     },
     menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
-    // 增加一个 loading 的状态
     childrenRender: (children, props) => {
-      // if (initialState?.loading) return <PageLoading />;
       return (
         <>
-          {props.location?.pathname?.includes('/login') && children}
-          {props.location?.pathname?.includes('/dashboard') && children}
-          {!props.location?.pathname?.includes('/login') &&
-            !props.location?.pathname?.includes('/dashboard') && (
-              <Card style={{ height: 'calc(100vh - 96px)', overflow: 'auto' }}>{children}</Card>
-            )}
-
-          {!props.location?.pathname?.includes('/login') && (
-            <SettingDrawer
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
+          {['/dashboard', '/callback'].includes(props.location?.pathname || '') ? (
+            children
+          ) : (
+            <Card style={{ height: 'calc(100vh - 96px)', overflow: 'auto' }}>{children}</Card>
           )}
         </>
       );

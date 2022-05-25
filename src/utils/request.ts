@@ -1,14 +1,17 @@
+import { message } from 'antd';
 import qs from 'qs';
 import { request as r } from 'umi';
-import { ResponseError } from 'umi-request';
-import { gotoWithRedirect } from './navigate';
+import type { ResponseError } from 'umi-request';
+import { goSsoLogin } from './navigate';
 
 const prefix = '/api';
 
-const errorHandler = (e: ResponseError) => {
+const errorHandler = async (e: ResponseError) => {
   if (e.response.status === 401) {
+    const res = await e.response.json();
+    message.error(res.message);
     localStorage.removeItem('accessToken');
-    gotoWithRedirect('/login');
+    console.log(goSsoLogin());
   }
 };
 
@@ -36,6 +39,7 @@ class Req {
         errorHandler,
       })
         .then((result) => {
+          if (!result) return;
           // @ts-ignore
           if (result.code === 0) {
             resolve(result.data);
@@ -70,6 +74,7 @@ class Req {
         errorHandler,
       })
         .then((result) => {
+          if (!result) return;
           // @ts-ignore
           if (result.code === 0) {
             resolve(result.data);
@@ -111,6 +116,7 @@ class Req {
     return new Promise<T>((resolve, reject) => {
       r<T>(url, o)
         .then((result) => {
+          if (!result) return;
           // @ts-ignore
           if (result.code === 0) {
             resolve(result.data);
@@ -157,6 +163,7 @@ class Req {
     return new Promise<T>((resolve, reject) => {
       r<T>(url, o)
         .then((result) => {
+          if (!result) return;
           // @ts-ignore
           if (result.code === 0) {
             resolve(result.data);
@@ -200,6 +207,7 @@ class Req {
         errorHandler,
       })
         .then((result) => {
+          if (!result) return;
           // @ts-ignore
           if (result.code === 0) {
             resolve(result.data);

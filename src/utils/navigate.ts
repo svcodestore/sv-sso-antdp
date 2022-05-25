@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { stringify } from 'querystring';
 import { history } from 'umi';
 
@@ -11,4 +12,22 @@ export function gotoWithRedirect(url: string) {
           redirect: pathname + search,
         }),
   });
+}
+
+export function goSsoLogin() {
+  const authPath = localStorage.getItem('loginUris') || '';
+  const clientId = localStorage.getItem('clientId') || '';
+  const callbackPath = localStorage.getItem('redirectUris;') || '';
+  if (!authPath || !clientId || !callbackPath) {
+    message.error('登录参数错误');
+    return;
+  }
+  const authSearchParams = new URLSearchParams();
+  authSearchParams.append('response_type', 'code');
+  authSearchParams.append('client_id', clientId);
+  authSearchParams.append('redirect_uri', callbackPath);
+  authSearchParams.append('scope', 'read');
+  const authHref = authPath + authSearchParams.toString();
+
+  window.location.href = authHref;
 }

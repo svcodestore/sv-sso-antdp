@@ -1,19 +1,8 @@
 ﻿export default [
   {
-    path: '/login',
+    path: '/callback',
     layout: false,
-    component: './Login',
-    routes: [
-      {
-        path: '/oauth2.0',
-        routes: [
-          {
-            path: '/authorize',
-            component: './Login',
-          },
-        ],
-      },
-    ],
+    component: './Auth',
   },
   {
     path: '/dashboard',

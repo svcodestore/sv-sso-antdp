@@ -5,7 +5,7 @@ import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import { outLogin } from '@/services/api/api';
+import { outLogin } from '@/services/api/oauth';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 export type GlobalHeaderRightProps = {
