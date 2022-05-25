@@ -8,10 +8,13 @@ const prefix = '/api';
 
 const errorHandler = async (e: ResponseError) => {
   if (e.response.status === 401) {
-    const res = await e.response.json();
-    message.error(res.message);
-    localStorage.removeItem('accessToken');
-    console.log(goSsoLogin());
+    try {
+      const res = await e.response.json();
+      message.error(res.message);
+    } finally {
+      localStorage.removeItem('accessToken');
+      goSsoLogin();
+    }
   }
 };
 
