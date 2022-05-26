@@ -29,9 +29,7 @@ export function toMenuDataItems(
     if (menu.hide) {
       menuDataItem.hideInMenu = menu.hide;
     }
-    if (pid === '0') {
-      menuDataItems.push(menuDataItem);
-    } else if (menu.pid === pid) {
+    if (menu.pid === pid) {
       menuDataItem.routes = [];
       toMenuDataItems(menus, menuDataItem.routes, iconMaps, menu.id);
       if (menuDataItem.routes && menuDataItem.routes.length < 1) {
