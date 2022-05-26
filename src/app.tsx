@@ -94,7 +94,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push('/');
       }
 
-      if (initialState?.menus?.every((menu) => location.pathname !== menu.path)) {
+      if (
+        !initialState?.menus ||
+        !initialState?.menus.length ||
+        initialState?.menus?.every((menu) => location.pathname !== menu.path)
+      ) {
         history.push('/404');
       }
     },
