@@ -1,4 +1,5 @@
 export default {
+  'menu.ROOT': 'Home',
   'menu.welcome': 'Welcome',
   'menu.organization': 'Organization',
   'menu.organization.organizations': 'Organization List',

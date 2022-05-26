@@ -10,8 +10,13 @@ import { getCurrentApplication } from './services/api/application/application';
 import { getCurrentUser } from './services/api/user/user';
 import { getMenus } from './services/api/menu';
 import { sortMenuDataItems, toMenuDataItems } from './utils/menu';
+import { DashboardOutlined } from '@ant-design/icons';
 
 setLocale('zh-CN', false);
+
+const iconMaps = {
+  dashboard: <DashboardOutlined />,
+};
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -26,13 +31,14 @@ export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
   loading?: boolean;
   currentApplication?: API.Application;
+  menus?: API.Menu[];
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const app = await getCurrentApplication();
   localStorage.setItem('applicationId', app.id);
   localStorage.setItem('loginUris', app.loginUris);
   localStorage.setItem('clientId', app.clientId);
-  localStorage.setItem('redirectUris;', app.redirectUris);
+  localStorage.setItem('redirectUris', app.redirectUris);
 
   const fetchUserInfo = async () => {
     try {
@@ -58,7 +64,7 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     menu: {
       request: async () => {
@@ -67,10 +73,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         const menus = await getMenus(applicationId, userId);
         if (!menus) return [];
 
+        setInitialState((s) => ({ ...s, menus }));
         const menuDataItems: MenuDataItem[] = [];
-        toMenuDataItems(menus, menuDataItems);
+        toMenuDataItems(menus, menuDataItems, iconMaps);
         sortMenuDataItems(menuDataItems);
-        console.log(menuDataItems);
+
         return menuDataItems;
       },
     },
@@ -85,6 +92,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       const url = new URL(redirectUris || '');
       if (initialState?.currentUser && url.pathname === location.pathname) {
         history.push('/');
+      }
+
+      if (initialState?.menus?.every((menu) => location.pathname !== menu.path)) {
+        history.push('/404');
       }
     },
     menuHeaderRender: undefined,

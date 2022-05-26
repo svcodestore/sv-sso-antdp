@@ -1,4 +1,5 @@
 export default {
+  'menu.ROOT': '主页',
   'menu.welcome': '欢迎',
   'menu.organization': '组织',
   'menu.organization.organizations': '组织列表',

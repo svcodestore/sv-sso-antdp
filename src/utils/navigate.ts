@@ -17,7 +17,7 @@ export function gotoWithRedirect(url: string) {
 export function goSsoLogin() {
   const authPath = localStorage.getItem('loginUris') || '';
   const clientId = localStorage.getItem('clientId') || '';
-  const callbackPath = localStorage.getItem('redirectUris;') || '';
+  const callbackPath = localStorage.getItem('redirectUris') || '';
   if (!authPath || !clientId || !callbackPath) {
     message.error('登录参数错误');
     return;
