@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { stringify } from 'querystring';
 import { history } from 'umi';
 
@@ -19,7 +18,7 @@ export function goSsoLogin() {
   const clientId = localStorage.getItem('clientId') || '';
   const callbackPath = localStorage.getItem('redirectUris') || '';
   if (!authPath || !clientId || !callbackPath) {
-    message.error('登录参数错误');
+    window.location.reload();
     return;
   }
   const authSearchParams = new URLSearchParams();

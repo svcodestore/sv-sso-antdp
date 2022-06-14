@@ -11,6 +11,7 @@ import { getCurrentUser } from './services/api/user/user';
 import { getMenus } from './services/api/menu';
 import { sortMenuDataItems, toMenuDataItems } from './utils/menu';
 import { DashboardOutlined } from '@ant-design/icons';
+import { goSsoLogin } from './utils/navigate';
 
 setLocale('zh-CN', false);
 
@@ -55,7 +56,7 @@ export async function getInitialState(): Promise<{
 
   if (localStorage.getItem('accessToken')) {
     const currentUser = await fetchUserInfo();
-    localStorage.setItem('userId', currentUser?.id || '');
+    localStorage.setItem('userId', currentUser?.id as string);
     // @ts-ignore
     o.currentUser = currentUser;
   }
@@ -68,15 +69,23 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     menu: {
       request: async () => {
+        const menuDataItems: MenuDataItem[] = [];
+
         const applicationId = localStorage.getItem('applicationId') || '';
         const userId = localStorage.getItem('userId') || '';
-        const menus = await getMenus(applicationId, userId);
-        if (!menus) return [];
 
-        setInitialState((s) => ({ ...s, menus }));
-        const menuDataItems: MenuDataItem[] = [];
-        toMenuDataItems(menus, menuDataItems, iconMaps);
-        sortMenuDataItems(menuDataItems);
+        if (window.location.origin + location.pathname !== localStorage.getItem('redirectUris')) {
+          if (!applicationId || !userId) {
+            goSsoLogin();
+            return;
+          }
+          const menus = await getMenus(applicationId, userId);
+          if (!menus) return [];
+
+          setInitialState((s) => ({ ...s, menus }));
+          toMenuDataItems(menus, menuDataItems, iconMaps);
+          sortMenuDataItems(menuDataItems);
+        }
 
         return menuDataItems;
       },
@@ -94,12 +103,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push('/');
       }
 
-      if (
-        !initialState?.menus ||
-        !initialState?.menus.length ||
-        initialState?.menus?.every((menu) => location.pathname !== menu.path)
-      ) {
-        history.push('/404');
+      if (window.location.origin + location.pathname !== localStorage.getItem('redirectUris')) {
+        if (
+          !initialState?.menus &&
+          initialState?.menus?.every((menu) => location.pathname !== menu.path)
+        ) {
+          history.push('/404');
+        }
       }
     },
     menuHeaderRender: undefined,
