@@ -7,7 +7,7 @@ const { Meta } = Card;
 const getCardsData = () => {
   return [
     {
-      cover: <img alt="organizations" src="https://cdn.casbin.com/static/img/organizations.png" />,
+      cover: <img alt="organizations" src="http://192.168.123.51:50105/10001.png" />,
       meta: {
         title: '组织',
         description: '用户容器',
@@ -15,7 +15,7 @@ const getCardsData = () => {
       goto: '/organizations',
     },
     {
-      cover: <img alt="users" src="https://cdn.casbin.com/static/img/users.png" />,
+      cover: <img alt="users" src="http://192.168.123.51:50105/10002.png" />,
       meta: {
         title: '用户',
         description: '所有组织里的用户',
@@ -23,14 +23,14 @@ const getCardsData = () => {
       goto: '/users',
     },
     {
-      cover: <img alt="OAuth提供方" src="https://cdn.casbin.com/static/img/providers.png" />,
+      cover: <img alt="OAuth提供方" src="http://192.168.123.51:50105/10003.png" />,
       meta: {
         title: '提供商',
         description: 'OAuth提供方',
       },
     },
     {
-      cover: <img alt="applications" src="https://cdn.casbin.com/static/img/applications.png" />,
+      cover: <img alt="applications" src="http://192.168.123.51:50105/10004.png" />,
       meta: {
         title: '应用',
         description: '需要鉴权的应用',
