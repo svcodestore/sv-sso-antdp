@@ -69,25 +69,36 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     menu: {
       request: async () => {
-        const menuDataItems: MenuDataItem[] = [];
+        await new Promise((resolve) => {
+          setTimeout(async () => {
+            const menuDataItems: MenuDataItem[] = [];
 
-        const applicationId = localStorage.getItem('applicationId') || '';
-        const userId = localStorage.getItem('userId') || '';
+            const applicationId = localStorage.getItem('applicationId') || '';
+            const userId = localStorage.getItem('userId') || '';
 
-        if (window.location.origin + location.pathname !== localStorage.getItem('redirectUris')) {
-          if (!applicationId || !userId) {
-            goSsoLogin();
-            return;
-          }
-          const menus = await getMenus(applicationId, userId);
-          if (!menus) return [];
+            if (
+              window.location.origin + location.pathname !==
+              localStorage.getItem('redirectUris')
+            ) {
+              if (!applicationId || !userId) {
+                goSsoLogin();
+                resolve([]);
+                return;
+              }
+              const menus = await getMenus(applicationId, userId);
+              if (!menus) {
+                resolve([]);
+                return;
+              }
 
-          setInitialState((s) => ({ ...s, menus }));
-          toMenuDataItems(menus, menuDataItems, iconMaps);
-          sortMenuDataItems(menuDataItems);
-        }
+              setInitialState((s) => ({ ...s, menus }));
+              toMenuDataItems(menus, menuDataItems, iconMaps);
+              sortMenuDataItems(menuDataItems);
+            }
 
-        return menuDataItems;
+            resolve(menuDataItems);
+          }, 260);
+        });
       },
     },
     rightContentRender: () => <RightContent />,
